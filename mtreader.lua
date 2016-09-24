@@ -27,7 +27,7 @@ function printArray(t, length)
 	io.write("\n")
 end
 
--- @return string note "A#3"
+-- @return string note (e.g. "A#3")
 function toNote(raw)	
 	-- extract note index from LSB
 	local note = bit32.rshift(raw, 9)
@@ -49,6 +49,8 @@ end
 -- @return effect, arg1[, arg2]
 function toEffect(raw)
 	raw = bit32.band(raw, 0x1FF)
+
+	if (raw == 0) then return "..." end
 
 	local effectslist = {"0", "1", "2", "3", "4", "B", "D", "F"}
 	function isTwoArgEff(raw) return bit32.rshift(raw, 6) == 0 or bit32.rshift(raw, 6) == 4 end
