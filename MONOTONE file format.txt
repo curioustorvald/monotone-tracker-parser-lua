@@ -1,0 +1,62 @@
+MONOTONE file format
+
+Byte 00:
+	08 4D 4F 4E 4F 54 4F 4E 45 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 (01)?
+	Magic
+
+Byte 5C:
+	Length of Order List
+
+Byte 5D:
+	Number of voices
+
+Byte 5E:
+	? Always 02 ?
+
+Byte 5F - 15E (0x100 bytes):
+	Order List
+
+Tracks are INTERLEAVED
+
+	Assuming stream of bytes: x1 y1 x2 y2 x3 y3 (next row)...
+
+	|nnn edd|nnn edd|nnn edd
+	 yy1 xx1 yy2 xx2 yy3 xx3
+
+	Each word (2 bytes) is stored in Little Endian
+
+	yy xx -> xxyy
+
+	Example:                        Note    Eff dd
+		C-5 234 -> B4 68 -> 68B4 -> 0110100 010 110100
+		C#5 234 -> B4 6A -> 6AB4 -> 0110101 010 110100
+		A-0                      -> 0000001 (27.5 Hz according to the src for the tracker)
+		---                      -> 0000000
+		OFF                      -> 1111111
+
+	Snippets:
+		C-5 234 -> B4 68
+		C#5 234 -> B4 6A
+		D-5 234 -> B4 6C
+		000 -> 00
+		077 -> 3F
+		004 -> 04
+		104 -> 44
+		204 -> 84
+		304 -> C4
+		F3F -> FF 01 (!! Little Endian !!)
+
+	Effects:
+		000-077 (x,y: 0-7) Size: 0x40 
+		100-13F (xx: 0-3F) Size: 0x40
+		200-23F (xx: 0-3F) Size: 0x40
+		300-33F (xx: 0-3F) Size: 0x40
+		400-477 (x,y: 0-7) Size: 0x40
+		B00-B3F (xx: 0-3F) Size: 0x40
+		D00-D3F (xx: 0-3F) Size: 0x40
+		F00-F3F (xx: 0-3F) Size: 0x40
+
+
+
+
+Patterns are stored 00, 01, 02, 03, ... always ordered, regardless of the Order List
