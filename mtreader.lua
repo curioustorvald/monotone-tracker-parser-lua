@@ -46,7 +46,7 @@ function toNote(raw)
 	end
 end
 
--- @return effect, arg1[, arg2]
+-- @return string: effect, arg1[, arg2]
 function toEffect(raw)
 	raw = bit32.band(raw, 0x1FF)
 
@@ -125,6 +125,7 @@ local file = fetchAsBytes()
 -- check magic
 if file:sub(1,0x5C) ~= magic then
 	print("Invalid MONOTONE file!")
+	return
 end
 
 -- magic passed, start parsing
@@ -154,8 +155,3 @@ for i, k in ipairs(orderlist) do
 	if (i > songlen + 1) then break end
 	printOrdr(file, k)
 end
-
-
-
-::terminate::
-return 0
