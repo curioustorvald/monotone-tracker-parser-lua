@@ -1,5 +1,7 @@
 MONOTONE file format
 
+	This is my analysis of MONOTONE's MON file format.
+
 Byte 00:
 	08 4D 4F 4E 4F 54 4F 4E 45 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 (01)?
 	Magic
@@ -14,7 +16,7 @@ Byte 5E:
 	? Always 02 ?
 
 Byte 5F - 15E (0x100 bytes):
-	Order List
+	Order List data
 
 Tracks are INTERLEAVED
 
@@ -27,9 +29,9 @@ Tracks are INTERLEAVED
 
 	yy xx -> xxyy
 
-	Example:                        Note    Eff dd
-		C-5 234 -> B4 68 -> 68B4 -> 0110100 010 110100
-		C#5 234 -> B4 6A -> 6AB4 -> 0110101 010 110100
+	Example: ---------------------- Note -- Eff - d - d
+		C-5 234 -> B4 68 -> 68B4 -> 0110100 010 110 100
+		C#5 234 -> B4 6A -> 6AB4 -> 0110101 010 110 100
 		A-0                      -> 0000001 (27.5 Hz according to the src for the tracker)
 		---                      -> 0000000
 		OFF                      -> 1111111
@@ -38,13 +40,13 @@ Tracks are INTERLEAVED
 		C-5 234 -> B4 68
 		C#5 234 -> B4 6A
 		D-5 234 -> B4 6C
-		000 -> 00
-		077 -> 3F
-		004 -> 04
-		104 -> 44
-		204 -> 84
-		304 -> C4
-		F3F -> FF 01 (!! Little Endian !!)
+		--- 000 -> 00 00
+		--- 077 -> 3F 00
+		--- 004 -> 04 00
+		--- 104 -> 44 00
+		--- 204 -> 84 00
+		--- 304 -> C4 00
+		--- F3F -> FF 01 (!! Little Endian !!)
 
 	Effects:
 		000-077 (x,y: 0-7) Size: 0x40 
